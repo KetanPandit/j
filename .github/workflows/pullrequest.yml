@@ -1,4 +1,4 @@
-name: pull-request1
+name: pull-request
 
 on:
   pull_request:
@@ -7,6 +7,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      my-postgres-container:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
     steps:
       - name: Check out code
       - uses: actions/checkout@v2
@@ -19,3 +24,6 @@ jobs:
 
       - name: Run tests 
         run: npm test
+        env:
+          POSTGRES_HOST: my-postgres-container
+          POSTGRES_PASSWORD: postgres
